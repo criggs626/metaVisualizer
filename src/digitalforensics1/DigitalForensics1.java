@@ -4,15 +4,26 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URL;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 public class DigitalForensics1 extends Application {
+
+    WebEngine webEngine;
 
     public static void main(String[] args) {
         launch(args);
@@ -35,9 +46,37 @@ public class DigitalForensics1 extends Application {
         }
 
         MyBrowser myBrowser = new MyBrowser();
-        StackPane root = new StackPane();
-        root.getChildren().add(myBrowser);
-        primaryStage.setScene(new Scene(root));
+        BorderPane root = new BorderPane();
+        root.setCenter(myBrowser);
+
+        
+        HBox frame = new HBox();
+        frame.setSpacing(10);
+        for (image file : images) {
+            ImageView iv = new ImageView();
+            Image im = new Image("file:" + file.getDir(),200,0,false,false);
+            iv.setFitWidth(100);
+            iv.setFitHeight(100);
+            iv.setImage(im);
+            frame.getChildren().add(iv);
+        }
+        ScrollPane sp = new ScrollPane();
+        sp.setContent(frame);
+        root.setTop(sp);
+
+        Button addPins = new Button("Add Pins");
+        root.setBottom(addPins);
+        addPins.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                for (int i = 0; i < images.length; i++) {
+                    root.getChildren().remove(addPins);
+                    webEngine.executeScript("addPin(" + images[i].getLocation() + ",'" + images[i].getPath() + "','" + i + "')");
+                }
+            }
+        });
+
+        primaryStage.setScene(new Scene(root, 800, 700));
         primaryStage.show();
     }
 
@@ -45,14 +84,11 @@ public class DigitalForensics1 extends Application {
 
         public MyBrowser() {
             WebView webView = new WebView();
-            WebEngine webEngine = webView.getEngine();
+            webEngine = webView.getEngine();
             final URL urlGoogleMaps = getClass().getResource("maps.html");
             webEngine.load(urlGoogleMaps.toExternalForm());
             webEngine.setJavaScriptEnabled(true);
-            webEngine.executeScript("var marker = new google.maps.Marker({position: {lat: 28.04550827777778, lng: -81.95190458333333},map: map,title: 'Hello World!'});");
-
             getChildren().add(webView);
-
         }
     }
 

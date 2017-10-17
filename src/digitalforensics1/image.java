@@ -28,9 +28,9 @@ public class image {
 
             GpsDirectory gps = meta.getDirectory(GpsDirectory.class);
             location = gps.getGeoLocation();
-            
-            ExifIFD0Directory exif0= meta.getDirectory(ExifIFD0Directory.class);
-            phone=exif0.getString(ExifIFD0Directory.TAG_MAKE)+" "+exif0.getString(ExifIFD0Directory.TAG_MODEL);
+
+            ExifIFD0Directory exif0 = meta.getDirectory(ExifIFD0Directory.class);
+            phone = exif0.getString(ExifIFD0Directory.TAG_MAKE) + " " + exif0.getString(ExifIFD0Directory.TAG_MODEL);
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -39,7 +39,27 @@ public class image {
     public void display() {
         System.out.println(file.getName());
         System.out.println(date.toString());
-        System.out.println(location.toString());
+        try {
+            System.out.println(location.toString());
+        } catch (Exception e) {
+            location = new GeoLocation(34.683, -41.051);
+        }
         System.out.println(phone + "\n---------\n");
+    }
+
+    public String getName() {
+        return file.getName();
+    }
+
+    public String getDir() {
+        return file.getAbsolutePath();
+    }
+
+    public String getPath() {
+        return file.getAbsolutePath().replace("\\","\\\\");
+    }
+
+    public String getLocation() {
+        return location.toString();
     }
 }
