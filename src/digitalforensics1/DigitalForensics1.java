@@ -52,6 +52,7 @@ public class DigitalForensics1 extends Application {
 
         HBox frame = new HBox();
         frame.setSpacing(10);
+        int index=0;
         for (image file : images) {
             ImageView iv = new ImageView();
             Image im = new Image("file:" + file.getDir(), 200, 0, false, false);
@@ -60,8 +61,9 @@ public class DigitalForensics1 extends Application {
             iv.setImage(im);
             frame.getChildren().add(iv);
             VBox metaInfo = new VBox();
-            Text temp = new Text(file.getInfo());
+            Text temp = new Text(index+"\n"+file.getInfo());
             frame.getChildren().add(temp);
+            index++;
         }
         ScrollPane sp = new ScrollPane();
         sp.setContent(frame);
