@@ -56,7 +56,15 @@ public class image {
     }
 
     public String getPath() {
-        return file.getAbsolutePath().replace("\\","\\\\");
+        return file.getAbsolutePath().replace("\\", "\\\\");
+    }
+
+    public String getInfo() {
+        String result="";
+        result+=date+"\n";
+        result+=(location.toString().equals("34.683, -41.051"))?"N/A\n":location.toString()+"\n";
+        result+=phone+"\n";
+        return result;
     }
 
     public String getLocation() {

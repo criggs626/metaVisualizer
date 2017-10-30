@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.scene.web.WebEngine;
@@ -49,29 +50,33 @@ public class DigitalForensics1 extends Application {
         BorderPane root = new BorderPane();
         root.setCenter(myBrowser);
 
-        
         HBox frame = new HBox();
         frame.setSpacing(10);
         for (image file : images) {
             ImageView iv = new ImageView();
-            Image im = new Image("file:" + file.getDir(),200,0,false,false);
+            Image im = new Image("file:" + file.getDir(), 200, 0, false, false);
             iv.setFitWidth(100);
             iv.setFitHeight(100);
             iv.setImage(im);
             frame.getChildren().add(iv);
+            VBox metaInfo = new VBox();
+            Text temp = new Text(file.getInfo());
+            frame.getChildren().add(temp);
         }
         ScrollPane sp = new ScrollPane();
         sp.setContent(frame);
-        root.setTop(sp);
+        root.setBottom(sp);
 
         Button addPins = new Button("Add Pins");
-        root.setBottom(addPins);
+        root.setTop(addPins);
         addPins.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 for (int i = 0; i < images.length; i++) {
                     root.getChildren().remove(addPins);
-                    webEngine.executeScript("addPin(" + images[i].getLocation() + ",'" + images[i].getPath() + "','" + i + "')");
+                    if (!images[i].getLocation().equals("34.683, -41.051")) {
+                        webEngine.executeScript("addPin(" + images[i].getLocation() + ",'" + images[i].getPath() + "','" + i + "')");
+                    }
                 }
             }
         });
