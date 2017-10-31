@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -52,7 +51,7 @@ public class DigitalForensics1 extends Application {
 
         HBox frame = new HBox();
         frame.setSpacing(10);
-        int index=0;
+        int index = 0;
         for (image file : images) {
             ImageView iv = new ImageView();
             Image im = new Image("file:" + file.getDir(), 200, 0, false, false);
@@ -61,7 +60,7 @@ public class DigitalForensics1 extends Application {
             iv.setImage(im);
             frame.getChildren().add(iv);
             VBox metaInfo = new VBox();
-            Text temp = new Text(index+"\n"+file.getInfo());
+            Text temp = new Text(index + "\n" + file.getInfo());
             frame.getChildren().add(temp);
             index++;
         }
@@ -76,6 +75,7 @@ public class DigitalForensics1 extends Application {
             public void handle(ActionEvent e) {
                 for (int i = 0; i < images.length; i++) {
                     root.getChildren().remove(addPins);
+                    webEngine.executeScript("setZoom("+images[i].getLocation()+")");
                     if (!images[i].getLocation().equals("34.683, -41.051")) {
                         webEngine.executeScript("addPin(" + images[i].getLocation() + ",'" + images[i].getPath() + "','" + i + "')");
                     }
