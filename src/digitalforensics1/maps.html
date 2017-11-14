@@ -37,6 +37,11 @@
             function setZoom(lat, lng) {
                 map.panTo({"lat":lat,"lng":lng})
             }
+            
+            function goTo(lat, lng) {
+                map.panTo({"lat":lat,"lng":lng})
+                map.setZoom(20)
+            }
             var newModal = document.getElementById('imgView');
 
             window.onclick = function (event) {

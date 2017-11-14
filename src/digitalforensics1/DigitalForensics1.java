@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -57,7 +58,17 @@ public class DigitalForensics1 extends Application {
             Image im = new Image("file:" + file.getDir(), 200, 0, false, false);
             iv.setFitWidth(100);
             iv.setFitHeight(100);
+            iv.setId(""+index);
             iv.setImage(im);
+            iv.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    image file=images[Integer.valueOf(((ImageView) event.getSource()).getId())];
+                    webEngine.executeScript("goTo("+file.getLocation()+")");
+                    event.consume();
+                }
+            });
             frame.getChildren().add(iv);
             VBox metaInfo = new VBox();
             Text temp = new Text(index + "\n" + file.getInfo());
@@ -75,7 +86,7 @@ public class DigitalForensics1 extends Application {
             public void handle(ActionEvent e) {
                 for (int i = 0; i < images.length; i++) {
                     root.getChildren().remove(addPins);
-                    webEngine.executeScript("setZoom("+images[i].getLocation()+")");
+                    webEngine.executeScript("setZoom(" + images[i].getLocation() + ")");
                     if (!images[i].getLocation().equals("34.683, -41.051")) {
                         webEngine.executeScript("addPin(" + images[i].getLocation() + ",'" + images[i].getPath() + "','" + i + "')");
                     }
