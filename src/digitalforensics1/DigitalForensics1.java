@@ -86,7 +86,7 @@ public class DigitalForensics1 extends Application {
             public void handle(ActionEvent e) {
                 for (int i = 0; i < images.length; i++) {
                     root.getChildren().remove(addPins);
-                    webEngine.executeScript("setZoom(" + images[i].getLocation() + ")");
+                    //webEngine.executeScript("setZoom(" + images[i].getLocation() + ")");
                     if (!images[i].getLocation().equals("34.683, -41.051")) {
                         webEngine.executeScript("addPin(" + images[i].getLocation() + ",'" + images[i].getPath() + "','" + i + "')");
                     }

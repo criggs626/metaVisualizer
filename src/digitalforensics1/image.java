@@ -37,9 +37,9 @@ public class image {
     }
 
     public void display() {
-        System.out.println(file.getName());
-        System.out.println(date.toString());
         try {
+            System.out.println(file.getName());
+            System.out.println(date.toString());
             System.out.println(location.toString());
         } catch (Exception e) {
             location = new GeoLocation(34.683, -41.051);
@@ -60,10 +60,10 @@ public class image {
     }
 
     public String getInfo() {
-        String result="";
-        result+=date+"\n";
-        result+=(location.toString().equals("34.683, -41.051"))?"N/A\n":location.toString()+"\n";
-        result+=phone+"\n";
+        String result = "";
+        result += date + "\n";
+        result += (location.toString().equals("34.683, -41.051")) ? "N/A\n" : location.toString() + "\n";
+        result += phone + "\n";
         return result;
     }
 
